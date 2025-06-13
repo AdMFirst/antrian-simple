@@ -13,7 +13,7 @@ export default function HomePage() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:4000/ws/counters')
+    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_API_WS}/ws/counters`)
 
     ws.onmessage = (msg) => {
       const parsed: CounterMap = JSON.parse(msg.data)
