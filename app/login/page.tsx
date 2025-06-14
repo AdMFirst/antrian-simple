@@ -41,7 +41,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-100 p-4">
+    <div className="h-dvh flex items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-100 p-0">
       <form
         onSubmit={handleLogin}
         className="w-full max-w-sm bg-white p-8 rounded-xl shadow-md space-y-6"
@@ -84,6 +84,6 @@ export default function LoginPage() {
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
-    </main>
+    </div>
   )
 }

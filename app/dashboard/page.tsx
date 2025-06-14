@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AdminPage from "./admin";
+import CounterPage from "./counter";
 
 export default function DashboardPage() {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -27,13 +28,7 @@ export default function DashboardPage() {
         return <AdminPage />;
     } else {
         return (
-            <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-100 p-4">
-                <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md space-y-6">
-                    <h1 className="text-2xl font-bold text-center text-indigo-600">Dashboard</h1>
-                    <p className="text-sm text-gray-600 text-center">This is a placeholder for the dashboard content.</p>
-                    <button>Test</button>
-                </div>
-            </main>
+            <CounterPage />
         );
     }
 }

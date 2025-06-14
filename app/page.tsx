@@ -48,7 +48,7 @@ export default function HomePage() {
         Live Queue Counter
       </h1>
 
-      <audio ref={audioRef} src="/ding.mp3" preload="auto" />
+      <audio ref={audioRef} src="/ding.wav" preload="auto" />
 
       <div className="grid gap-6 justify-center grid-cols-[repeat(auto-fit,minmax(250px,1fr))] max-w-screen-xl mx-auto px-2">
         {Object.entries(counters).map(([key, val]) => {
