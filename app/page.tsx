@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
 type CounterMap = {
@@ -11,12 +12,18 @@ export default function HomePage() {
   const [soundEnabled, setSoundEnabled] = useState(false)
   const previousData = useRef<CounterMap>({})
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const lastVersion = useRef<string>('')
 
-  useEffect(() => {
-    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_API_WS}/ws/counters`)
-
-    ws.onmessage = (msg) => {
-      const parsed: CounterMap = JSON.parse(msg.data)
+  async function poll() {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/api/poll?version=${encodeURIComponent(lastVersion.current)}`,
+        {
+          credentials: 'include',
+        }
+      )
+      const data = await response.json()
+      const parsed: CounterMap = data.state
       delete parsed.admin
 
       for (const [key, val] of Object.entries(parsed)) {
@@ -31,9 +38,20 @@ export default function HomePage() {
 
       previousData.current = parsed
       setCounters(parsed)
-    }
+      lastVersion.current = data.version
 
-    return () => ws.close()
+      // Immediately start next poll
+      setTimeout(poll, 0)
+    } catch (error) {
+      console.error('Poll error:', error)
+      // Retry after delay on error
+      setTimeout(poll, 100)
+    }
+  }
+
+  useEffect(() => {
+    poll()
+    // No cleanup needed as polling is managed by setTimeout
   }, [soundEnabled])
 
   useEffect(() => {
@@ -77,7 +95,6 @@ export default function HomePage() {
         })}
       </div>
 
-      {/* Floating Sound Button */}
       {!soundEnabled && (
         <button
           onClick={() => {
@@ -87,7 +104,7 @@ export default function HomePage() {
           className="fixed bottom-6 right-6 size-9 opacity-30 hover:opacity-100 transition-opacity backdrop-blur-sm rounded-full shadow-md bg-white/80 p-2"
           title="Enable Sound"
         >
-          <img src="/MaterialSymbolsVolumeUpOutlineRounded.svg" alt="Enable Sound" className="w-full h-full" />
+          <Image src="/MaterialSymbolsVolumeUpOutlineRounded.svg" alt="Enable Sound" width={10} height={10} className="w-full h-full" />
         </button>
       )}
     </main>
