@@ -5,12 +5,12 @@ import AdminPage from "./admin";
 import CounterPage from "./counter";
 
 export default function DashboardPage() {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [role, setRole] = useState("");
     const [isLoading, setIsLoading] = useState(true); 
 
     useEffect(() => {
         const role = sessionStorage.getItem("RoleInfo");
-        setIsAdmin(role === "admin");
+        setRole(role || "");
         setIsLoading(false);
     }, []);
 
@@ -24,11 +24,17 @@ export default function DashboardPage() {
         );
     }
 
-    if (isAdmin) {
+    if (role === "admin") {
         return <AdminPage />;
-    } else {
+    } else if (role === "counter") {
         return (
             <CounterPage />
         );
+    } else {
+        return (
+            <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md space-y-6">
+                <p className="text-xl text-center text-gray-500">Access Denied</p>
+            </div>
+        )
     }
 }
