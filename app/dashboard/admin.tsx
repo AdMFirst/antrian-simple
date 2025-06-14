@@ -22,9 +22,9 @@ export default function AdminPage() {
             const res = await fetch(`${API_BASE_URL}/api/admin/list`, { credentials: 'include' });
             const data = await res.json();
             setUsers(data);
-        } catch (err: any) {
+        } catch (err) {
             console.error(err);
-            setErrorMessage(err.message);
+            setErrorMessage("Something went wrong while fetching users. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -48,9 +48,9 @@ export default function AdminPage() {
             setNewUsername('');
             setNewPassword('');
             fetchUsers();
-        } catch (err: any) {
+        } catch (err) {
             console.error(err);
-            setErrorMessage(err.message);
+            setErrorMessage("Something went wrong while creating the counter. Please try again.");
         }
     }
 

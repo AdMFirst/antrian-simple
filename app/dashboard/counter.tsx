@@ -19,9 +19,9 @@ export default function CounterPage() {
                     credentials: 'include',
                     body: JSON.stringify({ count }),
                 });
-            } catch (err: any) {
+            } catch (err) {
                 console.error(err);
-                setError(err.message || 'Failed to sync counter.');
+                setError('Failed to sync counter.');
             }
         };
 

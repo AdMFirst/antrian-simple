@@ -34,6 +34,7 @@ export default function LoginPage() {
       router.push('/dashboard');
       
     } catch (err) {
+      console.error(err)
       setError('Invalid username or password')
     } finally {
       setLoading(false)
