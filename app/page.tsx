@@ -45,7 +45,7 @@ export default function HomePage() {
     } catch (error) {
       console.error('Poll error:', error)
       // Retry after delay on error
-      setTimeout(poll, 100)
+      setTimeout(poll, 10000)
     }
   }
 
